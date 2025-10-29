@@ -19,3 +19,21 @@
 # Ignore environment-specific files
 .envrc
 .env
+/testautomation/SecretNick.TestAutomation/Tests/obj
+/.vs/VSWorkspaceState.json
+/testautomation/SecretNick.TestAutomation/Tests/Features/Api/RoomManagement.feature.cs
+/testautomation/SecretNick.TestAutomation/Tests/Features/Api/SystemHealth.feature.cs
+/testautomation/SecretNick.TestAutomation/Tests/Features/Api/UserManagement.feature.cs
+/testautomation/SecretNick.TestAutomation/.vs/SecretNick.TestAutomation/v17/TestStore/0/000.testlog
+/testautomation/SecretNick.TestAutomation/.vs/SecretNick.TestAutomation/v17/TestStore/0/testlog.manifest
+/testautomation/SecretNick.TestAutomation/Tests/Features/Ui/CompleteGiftExchangeFlow.feature.cs
+/testautomation/SecretNick.TestAutomation/Tests/Features/Ui/RoomCreation.feature.cs
+/testautomation/SecretNick.TestAutomation/Tests/Features/Ui/RoomManagement.feature.cs
+/testautomation/SecretNick.TestAutomation/Tests/Features/Ui/UserJoinRoom.feature.cs
+/testautomation/SecretNick.TestAutomation/.vs/SecretNick.TestAutomation
+/testautomation/SecretNick.TestAutomation/Tests/bin/Angular_Headless/net9.0/.playwright
+/testautomation/SecretNick.TestAutomation/Tests/bin/Angular_Headless/net9.0/Core/Configuration/appsettings.json
+/testautomation/SecretNick.TestAutomation/Tests/bin/Angular_Headless/net9.0/EmptyFiles
+/testautomation/SecretNick.TestAutomation/Tests/bin/Angular_Headless/net9.0/es
+/testautomation/SecretNick.TestAutomation/Tests/bin/Angular_Headless/net9.0/fr
+/testautomation/SecretNick.TestAutomation/Tests/bin/Angular_Headless/net9.0
