@@ -116,5 +116,138 @@ namespace Epam.ItMarathon.ApiService.Domain.Tests.AggregateTests
             result.Value.Users.Should()
                 .NotContain(u => u.GiftRecipientUserId == u.Id); // Ensure no user is assigned to themselves
         }
+        
+        /// <summary>
+        /// Tests that deleting a user fails when the room is closed.
+        /// </summary>
+        [Fact]
+        public void DeleteUser_ShouldReturnFailure_WhenRoomIsClosed()
+        {
+            // Arrange
+            var room = new RoomBuilder()
+                .WithName("Test Room")
+                .WithDescription("Test Room")
+                .WithGiftExchangeDate(DateTime.UtcNow.AddDays(1))
+                .WithShouldBeClosedOn(DateTime.UtcNow)
+                .AddUser(u => u
+                    .WithId(1)
+                    .WithAuthCode("code1")
+                    .WithIsAdmin(false)
+                    .WithFirstName("John")
+                    .WithLastName("Doe")
+                    .WithPhone("+380000000000")
+                    .WithDeliveryInfo("Addr")
+                    .WithWantSurprise(true)
+                    .WithInterests("Books")
+                    .WithWishes([]))
+                .Build();
+
+            // Act
+            var result = room.Value.DeleteUser(1);
+
+            // Assert
+            result.IsFailure.Should().BeTrue();
+            result.Error.Should().BeOfType<BadRequestError>();
+            result.Error.Errors.Should().Contain(e => e.PropertyName == "room.ClosedOn");
+        }
+
+        /// <summary>
+        /// Tests that deleting user fails when user id is not found.
+        /// </summary>
+        [Fact]
+        public void DeleteUser_ShouldReturnFailure_WhenUserIdNotFound()
+        {
+            // Arrange
+            var room = new RoomBuilder()
+                .WithName("Test Room")
+                .WithDescription("Test Room")
+                .WithGiftExchangeDate(DateTime.UtcNow.AddDays(1))
+                .AddUser(u => u
+                    .WithId(1)
+                    .WithAuthCode("code1")
+                    .WithIsAdmin(false)
+                    .WithFirstName("John")
+                    .WithLastName("Doe")
+                    .WithPhone("+380000000000")
+                    .WithDeliveryInfo("Addr")
+                    .WithWantSurprise(true)
+                    .WithInterests("Books")
+                    .WithWishes([]))
+                .Build();
+        
+            // Act
+            var result = room.Value.DeleteUser(999);
+        
+            // Assert
+            result.IsFailure.Should().BeTrue();
+            result.Error.Should().BeOfType<NotFoundError>();
+            result.Error.Errors.Should().Contain(e => e.PropertyName == "user.Id");
+        }
+        
+        /// <summary>
+        /// Tests that deleting admin user returns ForbiddenError.
+        /// </summary>
+        [Fact]
+        public void DeleteUser_ShouldReturnFailure_WhenUserIsAdmin()
+        {
+            // Arrange
+            var room = new RoomBuilder()
+                .WithName("Test Room")
+                .WithDescription("Test Room")
+                .WithGiftExchangeDate(DateTime.UtcNow.AddDays(1))
+                .AddUser(u => u
+                    .WithId(1)
+                    .WithAuthCode("code1")
+                    .WithIsAdmin(true)
+                    .WithFirstName("Admin")
+                    .WithLastName("User")
+                    .WithPhone("+380000000000")
+                    .WithDeliveryInfo("Addr")
+                    .WithWantSurprise(true)
+                    .WithInterests("Books")
+                    .WithWishes([]))
+                .Build();
+        
+            // Act
+            var result = room.Value.DeleteUser(1);
+        
+            // Assert
+            result.IsFailure.Should().BeTrue();
+            result.Error.Should().BeOfType<ForbiddenError>();
+            result.Error.Errors.Should().Contain(e => e.PropertyName == "Admin");
+        }
+        
+        /// <summary>
+        /// Tests that user is removed successfully.
+        /// </summary>
+        [Fact]
+        public void DeleteUser_ShouldRemoveUser_WhenValid()
+        {
+            // Arrange
+            var roomBuilder = new RoomBuilder()
+                .WithName("Test Room")
+                .WithDescription("Test Room")
+                .WithGiftExchangeDate(DateTime.UtcNow.AddDays(1))
+                .AddUser(u => u
+                    .WithId(1)
+                    .WithAuthCode("user1")
+                    .WithIsAdmin(false)
+                    .WithFirstName("John")
+                    .WithLastName("Doe")
+                    .WithPhone("+380000000000")
+                    .WithDeliveryInfo("Addr")
+                    .WithWantSurprise(true)
+                    .WithInterests("Books")
+                    .WithWishes([]));
+        
+            var room = roomBuilder.Build();
+        
+            // Act
+            var result = room.Value.DeleteUser(1);
+        
+            // Assert
+            result.IsSuccess.Should().BeTrue();
+            result.Value.Users.Should().BeEmpty();
+        }
     }
 }
