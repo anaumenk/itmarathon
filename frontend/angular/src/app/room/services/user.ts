@@ -57,4 +57,18 @@ export class UserService {
       })
     );
   }
+
+  public removeUserFromRoom(participantId: number) {
+    return this.#apiService.removeUser(this.#userCode(), participantId).pipe(
+      tap(({ status }) => {
+        if (status === 200) {
+          this.getUsers().subscribe();
+          this.#toasterService.show(
+            ToastMessage.SuccessRemove,
+            MessageType.Success
+          );
+        }
+      })
+    );
+  }
 }

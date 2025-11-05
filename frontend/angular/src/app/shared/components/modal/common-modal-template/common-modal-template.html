@@ -49,6 +49,7 @@
 
           <app-button
             class="primary medium"
+            [class.warning]="isWarning()"
             [text]="buttonText()"
             (click)="onActionButtonClick()"
           />
