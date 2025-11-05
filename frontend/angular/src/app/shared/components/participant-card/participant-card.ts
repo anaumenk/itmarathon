@@ -25,6 +25,7 @@ import { ModalService } from '../../../core/services/modal';
 import { getPersonalInfo } from '../../../utils/get-personal-info';
 import { UserService } from '../../../room/services/user';
 import type { User } from '../../../app.models';
+import { RemoveParticipantModal } from '../../../room/components/participant-remove-modal/participant-remove-modal';
 
 @Component({
   selector: 'li[app-participant-card]',
@@ -39,6 +40,7 @@ export class ParticipantCard {
   readonly showCopyIcon = input<boolean>(false);
   readonly userCode = input<string>('');
   readonly showInfoIcon = input<boolean>(false);
+  readonly showRemoveIcon = input<boolean>(false);
 
   readonly #popup = inject(PopupService);
   readonly #urlService = inject(UrlService);
@@ -58,6 +60,8 @@ export class ParticipantCard {
   public readonly ariaLabelCopy = AriaLabel.ParticipantLink;
   public readonly iconInfo = IconName.Info;
   public readonly ariaLabelInfo = AriaLabel.Info;
+  public readonly iconRemove = IconName.Remove;
+  public readonly ariaLabelRemove = AriaLabel.Remove;
 
   @HostBinding('tabindex') tab = 0;
   @HostBinding('class.list-row') rowClass = true;
@@ -121,6 +125,13 @@ export class ParticipantCard {
     }
   }
 
+  public onRemoveClick(): void {
+    if (this.isCurrentUserAdmin()) {
+      this.#openRemoveModal();
+      return;
+    }
+  }
+
   #openModal(): void {
     const personalInfo = getPersonalInfo(this.participant());
     const roomLink = this.#urlService.getNavigationLinks(
@@ -165,6 +176,24 @@ export class ParticipantCard {
         type: MessageType.Info,
       },
       true
+    );
+  }
+
+  #openRemoveModal(): void {
+    const participantId = this.participant().id;
+    const onRemove = () => {
+      this.#userService.removeUserFromRoom(participantId).subscribe(() => {
+        this.#modalService.close();
+      });
+    };
+
+    this.#modalService.openWithResult(
+      RemoveParticipantModal,
+      { participantId, onRemove },
+      {
+        buttonAction: () => this.#modalService.close(),
+        closeModal: () => this.#modalService.close(),
+      }
     );
   }
 }

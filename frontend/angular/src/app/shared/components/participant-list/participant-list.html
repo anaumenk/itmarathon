@@ -12,6 +12,7 @@
       app-participant-card
       [participant]="p"
       [showCopyIcon]="isAdmin() && !!userCode()"
+      [showRemoveIcon]="isAdmin() && !!userCode()"
       [userCode]="userCode()"
       [isCurrentUserAdmin]="isAdmin()"
     ></li>

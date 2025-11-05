@@ -23,6 +23,7 @@ export class CommonModalTemplate extends ParentModalLayout {
   readonly cancelButtonAction = output<void>();
 
   readonly isBudgetShown = computed(() => this.budget() !== undefined);
+  readonly isWarning = computed(() => this.buttonText() === ButtonText.Remove);
 
   public onCancelButtonClick(): void {
     this.cancelButtonAction.emit();
