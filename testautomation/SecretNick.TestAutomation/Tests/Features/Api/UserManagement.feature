@@ -91,3 +91,20 @@ Rule: User Retrieval
     When I get user details by ID
     Then I should see complete user information
     And I should see their gift preferences
+
+Rule: User Removal
+
+  @positive
+  Scenario: Remove participant by admin before randomization
+    Given I am a room admin
+    And the randomization for the room has not started
+    When I remove user by ID
+    Then the request should return status 200
+    And I should see success message in modal
+
+  @negative
+  Scenario: Remove participant by admin after randomization started
+    Given I am a room admin
+    And the randomization for the room has started
+    When I remove user by ID
+    Then the request should return status 400

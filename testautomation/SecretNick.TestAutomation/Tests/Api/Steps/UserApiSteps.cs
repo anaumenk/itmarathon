@@ -167,6 +167,20 @@ namespace Tests.Api.Steps
             await GivenIAmARegularUser();
         }
 
+        [Given("the randomization for the room has not started")]
+        public async Task GivenTheRandomizationHasNotStarted()
+        {
+            _scenarioContext.Set(false, "RandomizationStarted");
+        }
+        
+        [Given("the randomization for the room has started")]
+        public async Task GivenTheRandomizationForTheRoomHasStarted()
+        {
+            var roomResponse = _scenarioContext.Get<RoomCreationResponse>();
+            await _roomApiClient.DrawRoomAsync(roomResponse.UserCode!);
+            _scenarioContext.Set(true, "RandomizationStarted");
+        }
+
         [When("I join the room")]
         public async Task WhenIJoinTheRoom()
         {
@@ -222,6 +236,28 @@ namespace Tests.Api.Steps
             _scenarioContext.Set(userDetails, "UserDetails");
             _scenarioContext.Set(200, "LastStatusCode");
         }
+        
+        [When("I remove user by ID")]
+        public async Task WhenIRemoveUserByID()
+        {
+            var roomResponse = _scenarioContext.Get<RoomCreationResponse>();
+            var adminCode = roomResponse.UserCode!;
+            var users = await _apiClient.GetUsersAsync(adminCode);
+            var userToRemove = users.First(u => !u.IsAdmin);
+
+            try
+            {
+                await _apiClient.DeleteUserAsync(userToRemove.Id, adminCode);
+                _scenarioContext.Set(200, "LastStatusCode");
+                _scenarioContext.Set("Participant successfully removed.", "LastMessage");
+            }
+            catch (ApiException ex)
+            {
+                _scenarioContext.Set(ex.ActualStatus, "LastStatusCode");
+                _scenarioContext.Set(ex.ResponseBody, "LastError");
+            }
+        }
+
 
         [Then("I should be added successfully")]
         public void ThenIShouldBeAddedSuccessfully()

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Playwright;
+using static Microsoft.Playwright.Assertions;
 using Tests.Helpers;
 
 namespace Tests.Ui.Pages
@@ -29,13 +30,21 @@ namespace Tests.Ui.Pages
             "Wish Name",
             "Wish Link"
         ];
-
+        
+        internal ILocator GetButtonlocator(string buttonText) => Page.Locator($"xpath=.//button[.='{buttonText}']");
+        
         protected internal async Task ClickButtonAsync(string buttonText)
         {
-            var locator = Page.Locator($"xpath=.//button[.='{buttonText}']");
-            await locator.ClickSafeAsync(10000);
+            await GetButtonlocator(buttonText).ClickSafeAsync(10000);
         }
-
+        
+        protected internal async Task ClickIconButtonAsync(string ariaLabel)
+        {
+            var button = Page.GetByRole(AriaRole.Button, new() { Name = ariaLabel }).First;
+            await Expect(button).ToBeVisibleAsync();
+            await button.ClickAsync();
+        }
+        
         public async Task ClickOutsideAsync()
         {
             await Page.Locator("body").ClickAsync(new LocatorClickOptions
