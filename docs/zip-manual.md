@@ -39,6 +39,9 @@ If you prefer working in the terminal, this is the fastest method:
 **Done!** You can now proceed to Step 2.
 
 ---
+<br>
+<br>
+<br>
 
 ### Option B: Windows (File Explorer)
 
@@ -155,7 +158,7 @@ GitHub requires a Personal Access Token for pushing code. Let's create one:
    - Click **Generate new token** → **Generate new token (classic)**
    - **Note:** Enter a description like "Marathon 2025 Upload"
    - **Expiration:** Select 90 days (or custom date)
-   - **Select scopes:** Check only **repo** (this will check all sub-options)
+   - **Select scopes:** Check only **repo** and **workflow** (this will check all sub-options)
    - Scroll down and click **Generate token**
 
 3. **IMPORTANT:** Copy the token immediately! It looks like `ghp_xxxxxxxxxxxxxxxxxxxx`. You won't be able to see it again. Save it in a safe place temporarily.

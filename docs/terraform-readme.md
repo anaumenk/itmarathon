@@ -69,7 +69,7 @@ To securely store sensitive credentials (like AWS keys) for GitHub Actions, add 
 | Secret Name            | Description |
 |------------------------|-------------|
 | AWS_ACCESS_KEY_ID     | AWS IAM access key ID for authentication (from CSV). |
-| AWS_REGION            | AWS region to deploy resources (e.g., `us-east-1`). |
+| AWS_REGION            | AWS region to deploy resources (e.g., `eu-central-1`). |
 | AWS_SECRET_ACCESS_KEY | AWS IAM secret access key for authentication (from CSV). |
 | DOCKER_HUB_TOKEN      | Personal access token for Docker Hub authentication. |
 | DOCKER_HUB_USERNAME   | Docker Hub username for pushing/pulling images. |

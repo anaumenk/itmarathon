@@ -1,4 +1,5 @@
-﻿using Microsoft.Playwright;
+﻿using System.Text.RegularExpressions;
+using Microsoft.Playwright;
 using NUnit.Framework;
 using Reqnroll;
 using Reqnroll.BoDi;
@@ -113,7 +114,8 @@ namespace Tests.Hooks
                     var arguments = _scenarioContext.ScenarioInfo.Arguments;
                     string argumentsString = string.Join("_", arguments.Values.Cast<object>().Select(v => v?.ToString()?.Replace(" ", "_")));
 
-                    var fileName = $"{_scenarioContext.ScenarioInfo.Title}_{argumentsString}_{DateTime.Now:yyyyMMdd_HHmmss}.png";
+                    var rawFileName = $"{_scenarioContext.ScenarioInfo.Title}_{argumentsString}_{DateTime.Now:yyyyMMdd_HHmmss}.png";
+                    var fileName = Regex.Replace(rawFileName, @"[<>:""/\\|?*]", "_");
                     var screenshotPath = Path.Combine(screenshotDir, fileName);
 
                     await browserDriver.Page.ScreenshotAsync(new PageScreenshotOptions
