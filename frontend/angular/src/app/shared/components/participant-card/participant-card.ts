@@ -6,6 +6,7 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { RoomService } from '../../../room/services/room';
 import { tap } from 'rxjs';
 
 import { IconButton } from '../icon-button/icon-button';
@@ -47,6 +48,9 @@ export class ParticipantCard {
   readonly #host = inject(ElementRef<HTMLElement>);
   readonly #modalService = inject(ModalService);
   readonly #userService = inject(UserService);
+  readonly #roomService = inject(RoomService);
+
+  public readonly isRoomDrawn = this.#roomService.isRoomDrawn;
 
   public readonly isCurrentUser = computed(() => {
     const code = this.userCode();
