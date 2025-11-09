@@ -49,7 +49,8 @@ module "ec2" {
   web_ui_port                 = var.web_ui_port
   web_backend_port            = var.web_backend_port
   port                        = each.key == "dotnet" ? var.web_backend_port : (each.key == "react" || each.key == "angular" ? var.web_ui_port : 80)
-  target_group_arn            = each.key == "angular" ? module.alb.web_ui_angular_target_group_arn : each.key == "react" ? module.alb.web_ui_react_target_group_arn : each.key == "dotnet" ? module.alb.backend_target_group_arn : null
+#   target_group_arn            = each.key == "angular" ? module.alb.web_ui_angular_target_group_arn : each.key == "react" ? module.alb.web_ui_react_target_group_arn : each.key == "dotnet" ? module.alb.backend_target_group_arn : null
+  target_group_arn            = null
   associate_public_ip_address = true
 
 }
