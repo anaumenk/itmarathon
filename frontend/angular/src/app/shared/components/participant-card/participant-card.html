@@ -35,7 +35,7 @@
     />
   }
 
-  @if (showRemoveIcon() && !participant().isAdmin) {
+  @if (showRemoveIcon() && !participant().isAdmin && !isRoomDrawn()) {
     <app-icon-button
       [iconName]="iconRemove"
       [ariaLabel]="ariaLabelRemove"
