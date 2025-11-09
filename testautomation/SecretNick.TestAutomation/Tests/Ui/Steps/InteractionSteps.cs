@@ -23,6 +23,24 @@ namespace Tests.Ui.Steps
                 {
                 }
             }
+            
+            if (buttonText == "Remove")
+            {
+                try
+                {
+                    await page.WaitForSelectorAsync(".pl-list", new() { State = WaitForSelectorState.Detached, Timeout = 5000 });
+                }
+                catch
+                {
+                }
+            }
+        }
+
+        [When("I click {string} icon")]
+        public async Task WhenIClickTheIcon(string iconName)
+        {
+            await GetBasePage().ClickIconButtonAsync(iconName);
+            
         }
 
         [When("I click outside any element")]
