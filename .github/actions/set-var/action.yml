@@ -15,11 +15,11 @@ inputs:
 
   aws-secret-access-key:
     description: "AWS Secret Access Key"
-    required: true    
+    required: true
 
   aws-region:
     description: "AWS Region"
-    required: true    
+    required: true
 
 runs:
   using: "composite"
@@ -38,14 +38,14 @@ runs:
         aws-access-key-id: ${{ inputs.aws-access-key-id }}
         aws-secret-access-key: ${{ inputs.aws-secret-access-key }}
         aws-region: ${{ inputs.aws-region }}
-   
+
     - name: set backend url
       if: ${{ inputs.microservice == 'react' || inputs.microservice == 'angular' }}
       shell: bash
       run: |
         echo "Determining BASE_API_URL..."
 
-        DOMAIN_NAME=$(grep -Po '^\s*domain_name\s*=\s*"\K[^"]+' terraform/terraform.tfvars || echo "marathon2025.pp.ua")
+        DOMAIN_NAME="anaumenk.pp.ua"
         echo "got: $DOMAIN_NAME"
 
         ALB_DNS=$(aws elbv2 describe-load-balancers \
