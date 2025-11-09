@@ -75,3 +75,10 @@ db_engine            = "postgres"
 db_engine_version    = "17.5"
 db_instance_class    = "db.t3.micro"
 db_subnet_group_name = "rds-private-subnet-group"
+
+################################################################################
+# SSL variables
+################################################################################
+
+domain_name = "anaumenk.pp.ua"
+certificate_arn = "arn:aws:acm:eu-central-1:256108866790:certificate/6bc4021d-cda9-469e-acc2-db67f61cf59b"
